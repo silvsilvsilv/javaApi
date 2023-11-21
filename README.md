@@ -1,1 +1,8 @@
 # javaApi
+
+For Get All Link:
+https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db
+
+For Search Student data:
+
+"{ \"csc200\": { \"total_students\": 1, \"data\": { \"Section A\": [ { \"id\": 26, \"name\": \"Silva, John Leonil C.\", \"attendance\": [ { \"is_present\": true, \"date\": \"2023-09-20\" }, { \"is_present\": true, \"date\": \"2023-09-21\" }, { \"is_present\": true, \"date\": \"2023-09-29\" }, { \"is_present\": true, \"date\": \"2023-10-02\" }, { \"is_present\": true, \"date\": \"2023-10-04\" }, { \"is_present\": true, \"date\": \"2023-10-11\" }, { \"is_present\": true, \"date\": \"2023-11-08\" } ] } ] } } }";
