@@ -1,0 +1,152 @@
+package org.openjfx;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.annotation.JsonProperty;
+// import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class App extends Application {
+
+    public static class YourDataModel 
+    {
+        @JsonProperty("userId")
+        private int userId;
+
+        @JsonProperty("id")
+        private int id;
+
+        @JsonProperty("title")
+        private String title;
+
+        @JsonProperty("body")
+        private String body;
+        
+
+        public YourDataModel()
+        {
+
+        }
+        // Getter and Setter methods
+
+        @JsonSetter("id")
+        public void setId(int id)
+        {
+            this.id = id;
+        }
+
+        @JsonSetter("userId")
+        public void setUserId(int userId)
+        {
+            this.userId = userId;
+        }
+
+        @JsonSetter("title")
+        public void setTitle(String title)
+        {
+            this.title = title;
+        }
+
+        @JsonSetter("body")
+        public void setBody(String body)
+        {
+            this.body = body;
+        }
+
+        @JsonGetter("id")
+        public int getId()
+        {
+            return this.id;
+        }
+
+        @JsonGetter("userId")
+        public int getUserId()
+        {
+            return this.userId;
+        }
+
+        @JsonGetter("title")
+        public String getTitle()
+        {
+            return this.title;
+        }
+
+        @JsonGetter("body")
+        public String getBody()
+        {
+            return this.body;
+        }
+    }
+
+    private static final String API_URL = "https://jsonplaceholder.typicode.com/posts/1";
+    //only handles one instance, not lists
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Create UI components
+        Label titleLabel = new Label("Title: ");
+        Label bodyLabel = new Label("Body: ");
+        Label idLabel = new Label("Id: ");
+        Label userIdLabel = new Label("User ID: ");
+        VBox root = new VBox(idLabel,userIdLabel,titleLabel, bodyLabel);
+
+        // Make HTTP request, parse JSON, and update UI
+        try {
+            // Step 1: Make HTTP request
+            URL url = new URL(API_URL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            // Read the response
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                response.append(line);
+            }
+
+            reader.close();
+            connection.disconnect();
+
+            System.out.println(response.toString());
+        
+
+            // Step 2: Parse JSON with Jackson
+            ObjectMapper objectMapper = new ObjectMapper();
+            YourDataModel data = objectMapper.readValue(response.toString(), YourDataModel.class);
+
+            // Step 3: Update JavaFX UI
+            idLabel.setText("Id: " + data.getId());
+            userIdLabel.setText("User ID: " + data.getUserId());
+            titleLabel.setText("Title: " + data.getTitle());
+            bodyLabel.setText("Body: " + data.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Set up the JavaFX scene
+        Scene scene = new Scene(root, 400, 200);
+        primaryStage.setTitle("REST API Example");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void setRoot(String string) {
+    }
+}
