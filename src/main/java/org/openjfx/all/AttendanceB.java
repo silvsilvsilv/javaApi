@@ -13,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonSetter;
     "date"
 })
 
-public class Attendance__1 {
+public class AttendanceB {
 
     @JsonProperty("is_present")
     private boolean isPresent;
@@ -24,7 +24,7 @@ public class Attendance__1 {
      * No args constructor for use in serialization
      * 
      */
-    public Attendance__1() 
+    public AttendanceB() 
     {
     }
 

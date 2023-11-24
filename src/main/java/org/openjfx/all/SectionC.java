@@ -20,7 +20,7 @@ public class SectionC {
     @JsonProperty("total_students")
     private int totalStudents;
     @JsonProperty("data")
-    private List<Datum__2> data = new ArrayList<Datum__2>();
+    private List<DatumC> data = new ArrayList<DatumC>();
 
     /**
      * No args constructor for use in serialization
@@ -52,12 +52,12 @@ public class SectionC {
     }
 
     @JsonGetter("data")
-    public List<Datum__2> getData() {
+    public List<DatumC> getData() {
         return data;
     }
 
     @JsonSetter("data")
-    public void setData(List<Datum__2> data) {
+    public void setData(List<DatumC> data) {
         this.data = data;
     }
 

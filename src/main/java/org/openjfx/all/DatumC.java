@@ -16,20 +16,20 @@ import com.fasterxml.jackson.annotation.JsonSetter;
     "attendance"
 })
 
-public class Datum__2 {
+public class DatumC {
 
     @JsonProperty("id")
     private int id;
     @JsonProperty("name")
     private String name;
     @JsonProperty("attendance")
-    private List<Attendance__2> attendance = new ArrayList<Attendance__2>();
+    private List<AttendanceC> attendance = new ArrayList<AttendanceC>();
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public Datum__2() {
+    public DatumC() {
     }
 
     /**
@@ -67,12 +67,12 @@ public class Datum__2 {
     }
 
     @JsonGetter("attendance")
-    public List<Attendance__2> getAttendance() {
+    public List<AttendanceC> getAttendance() {
         return attendance;
     }
 
     @JsonSetter("attendance")
-    public void setAttendance(List<Attendance__2> attendance) {
+    public void setAttendance(List<AttendanceC> attendance) {
         this.attendance = attendance;
     }
 
