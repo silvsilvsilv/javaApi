@@ -30,6 +30,14 @@
             "request": "launch",
             "mainClass": "org.openjfx/org.openjfx.Test",
             "projectName": "hellofx"
+        },
+        {
+            "type": "java",
+            "name": "RUN PROJECT",
+            "request": "launch",
+            "mainClass": "org.openjfx/org.openjfx.App",
+            "projectName": "hellofx",
+            "vmArgs": " mvn javafx:run -f 'c:\\Users\\ASUS\\Desktop\\Computer Programming\\api\\hellofx\\pom.xml'"
         }
     ]
 }

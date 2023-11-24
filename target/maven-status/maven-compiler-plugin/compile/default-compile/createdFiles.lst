@@ -1,8 +1,4 @@
-org\openjfx\all\Attendance.class
-org\openjfx\all\Attendance__1.class
-org\openjfx\all\SectionA.class
-org\openjfx\all\Datum__1.class
 module-info.class
-org\openjfx\all\Datum.class
+org\openjfx\all\SectionA.class
 org\openjfx\search\SearchAttendance.class
 org\openjfx\search\Student.class

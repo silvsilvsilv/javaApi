@@ -2,7 +2,6 @@ module org.openjfx {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
-    requires com.dlsc.formsfx;
 
     opens org.openjfx to javafx.fxml;
     exports org.openjfx.all;
