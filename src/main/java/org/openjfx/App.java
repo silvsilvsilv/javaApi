@@ -10,8 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+
 
 public class App extends Application  {
 
@@ -39,6 +39,7 @@ public class App extends Application  {
         Scene scene = new Scene(border, 400,200);
         primaryStage.setScene(scene);
         primaryStage.show();
+
     }
 
     private HBox addHBox() {
