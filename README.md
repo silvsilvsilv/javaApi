@@ -16,4 +16,5 @@ Get All Students Info (Separated by Sections):<br/>
 Get One Student Info:<br/>
 ![image](https://github.com/silvsilvsilv/javaApi/assets/115610312/45f6e4bc-9a3d-48b9-93bb-4808037fcf9f)
 
+***NOTE:*** Images provided were made using test data, actual data may vary.
 
