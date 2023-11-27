@@ -1,5 +1,6 @@
 package org.openjfx;
 
+//dependencies
 import javafx.stage.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -9,10 +10,6 @@ import javafx.scene.layout.*;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,7 +29,7 @@ public class GetAllScene
 {
     //private static final String API_URL = "https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db";
 
-
+    //Handles the APIRequest and returns a class CSC200
     public static Csc200 APIRequest()
     {
         try
@@ -73,6 +70,7 @@ public class GetAllScene
         return null;
     }
     
+    //For GUI
     public static void display()
     {
         Stage window = new Stage();
@@ -80,34 +78,39 @@ public class GetAllScene
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Get All Student Info");
 
+        //For Menu Controls i.e. choosing section and the button to "GET"
         Label label = new Label();
         label.setText("Sections: ");
+        Label numOfStudents = new Label();
+        numOfStudents.setPadding(new Insets(10,0,10,0));
         Button showTableButton = new Button("GET");
         
-
+        //For the Choices of user
         ChoiceBox<String> sectionChoices = new ChoiceBox<>();
         
-
         sectionChoices.getItems().addAll("Section A", "Section B", "Section C");
         sectionChoices.setValue("Section A");
 
         Csc200 csc200 = APIRequest();
 
+        //For Layout of the "label" and sectionChoices choicebox
         VBox layout = new VBox();
         layout.setPadding(new Insets(0,0,10,0));
         layout.getChildren().addAll(label,sectionChoices);
 
         VBox newLayout = new VBox();
-        newLayout.getChildren().addAll(layout,showTableButton);
+        newLayout.getChildren().addAll(layout,showTableButton,numOfStudents);
         newLayout.setPadding(new Insets(20,20,20,20));
         newLayout.setAlignment(Pos.TOP_LEFT);
 
+        //Adds the table when user presses "GET" button
         showTableButton.setOnAction(event -> {
             String selectedSection = sectionChoices.getValue();
             if (selectedSection != null) 
             {
                 if(selectedSection == "Section A")
                 {
+                    numOfStudents.setText("Number of Students: " + csc200.getSectionA().getTotalStudents());
                     TableView<DatumA> tableView = createTableViewForSectionA(csc200);
 
                     // Clear existing children before adding the new TableView
@@ -116,12 +119,16 @@ public class GetAllScene
                 }
                 else if(selectedSection == "Section B")
                 {
+                    numOfStudents.setText("Number of Students: " + csc200.getSectionB().getTotalStudents());
+
                     TableView<DatumB> tableView = createTableViewForSectionB(csc200);
                     newLayout.getChildren().removeIf(node -> node instanceof TableView);
                     newLayout.getChildren().add(tableView);
                 }
                 else if(selectedSection == "Section C")
                 {
+                    numOfStudents.setText("Number of Students: " + csc200.getSectionC().getTotalStudents());
+
                     TableView<DatumC> tableView = createTableViewForSectionC(csc200);
                     newLayout.getChildren().removeIf(node -> node instanceof TableView);
                     newLayout.getChildren().add(tableView);
@@ -131,7 +138,7 @@ public class GetAllScene
         });
 
 
-        Scene scene = new Scene(newLayout,400,400);
+        Scene scene = new Scene(newLayout,641,641);
         window.setScene(scene);
         window.showAndWait();
     }
@@ -145,6 +152,7 @@ public class GetAllScene
         // Create a TableColumn for the "names" property
         TableColumn<DatumA, String> namesColumn = new TableColumn<>("Name");
         namesColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        namesColumn.setMinWidth(200);
 
         // Create a TableColumn for the "Present on" property
         TableColumn<DatumA, List<AttendanceA>> attendanceColumn = new TableColumn<>("Present on");
@@ -154,12 +162,13 @@ public class GetAllScene
                 return new SimpleObjectProperty<>(param.getValue().getAttendance());
             }
         });
+        attendanceColumn.setMinWidth(400);
 
         // Convert the list of dates to a comma-separated string
         attendanceColumn.setCellFactory(column -> new TextFieldTableCell<>(new StringConverter<>() {
             @Override
             public String toString(List<AttendanceA> object) {
-                return object.stream().map(AttendanceA::getDate).collect(Collectors.joining(" "));
+                return object.stream().map(AttendanceA::getDate).collect(Collectors.joining("\n"));
             }
 
             @Override
@@ -187,6 +196,7 @@ public class GetAllScene
         // Create a TableColumn for the "names" property
         TableColumn<DatumB, String> namesColumn = new TableColumn<>("Name");
         namesColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        namesColumn.setMinWidth(200);
 
         // Create a TableColumn for the "Present on" property
         TableColumn<DatumB, List<AttendanceB>> attendanceColumn = new TableColumn<>("Present on");
@@ -196,12 +206,13 @@ public class GetAllScene
                 return new SimpleObjectProperty<>(param.getValue().getAttendance());
             }
         });
+        attendanceColumn.setMinWidth(400);
 
         // Convert the list of dates to a comma-separated string
         attendanceColumn.setCellFactory(column -> new TextFieldTableCell<>(new StringConverter<>() {
             @Override
             public String toString(List<AttendanceB> object) {
-                return object.stream().map(AttendanceB::getDate).collect(Collectors.joining(" "));
+                return object.stream().map(AttendanceB::getDate).collect(Collectors.joining("\n"));
             }
 
             @Override
@@ -229,6 +240,7 @@ public class GetAllScene
         // Create a TableColumn for the "names" property
         TableColumn<DatumC, String> namesColumn = new TableColumn<>("Name");
         namesColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        namesColumn.setMinWidth(200);
 
         // Create a TableColumn for the "Present on" property
         TableColumn<DatumC, List<AttendanceC>> attendanceColumn = new TableColumn<>("Present on");
@@ -238,12 +250,13 @@ public class GetAllScene
                 return new SimpleObjectProperty<>(param.getValue().getAttendance());
             }
         });
+        attendanceColumn.setMinWidth(400);
 
         // Convert the list of dates to a comma-separated string
         attendanceColumn.setCellFactory(column -> new TextFieldTableCell<>(new StringConverter<>() {
             @Override
             public String toString(List<AttendanceC> object) {
-                return object.stream().map(AttendanceC::getDate).collect(Collectors.joining(" "));
+                return object.stream().map(AttendanceC::getDate).collect(Collectors.joining("\n"));
             }
 
             @Override

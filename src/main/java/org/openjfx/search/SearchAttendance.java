@@ -20,6 +20,12 @@ public class SearchAttendance
 
     }
 
+    public SearchAttendance(boolean isPresent, String date)
+    {
+        this.isPresent = isPresent;
+        this.date = date;
+    }
+
     @JsonGetter("is_present")
     public boolean isPresent()
     {
@@ -42,6 +48,16 @@ public class SearchAttendance
     public void setDate(String date)
     {
         this.date = date;
+    }
+
+    // New method to get string representation of isPresent
+    public String getIsPresentString() {
+        return isPresent() ? "Yes" : "No";
+    }
+
+    // New method to set string representation of isPresent
+    public void setIsPresentString(String isPresentString) {
+        // You may implement this method if needed
     }
     
 }

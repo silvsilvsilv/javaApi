@@ -36,7 +36,7 @@ public class App extends Application  {
 
         border.setCenter(vbox);
 
-        Scene scene = new Scene(border, 400,200);
+        Scene scene = new Scene(border, 500,300);
         primaryStage.setScene(scene);
         primaryStage.show();
 
@@ -50,7 +50,8 @@ public class App extends Application  {
         Button getAllButton = new Button("Get All Students Info");
         getAllButton.setOnAction(e -> GetAllScene.display());
         Button getStudentInfoButton = new Button("Get One Student Info");
-        getStudentInfoButton.setOnAction(e -> GetOneScene.display());
+        getStudentInfoButton.setOnAction(e -> new GetOneScene().display());
+    
 
         hbox.getChildren().addAll(getAllButton, getStudentInfoButton);
 
