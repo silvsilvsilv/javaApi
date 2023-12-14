@@ -32,7 +32,7 @@ public class GetOneScene
     private static String API_URL = "https://serval-select-totally.ngrok-free.app/api/student/search?search=";
     
     //Json Data as String for Testing
-    private static String jsonData = "{ \"csc200\": { \"total_students\": 1, \"data\": { \"Section A\": [ { \"id\": 26, \"name\": \"Silva, John Leonil C.\", \"attendance\": [ { \"is_present\": true, \"date\": \"2023-09-20\" }, { \"is_present\": true, \"date\": \"2023-09-21\" }, { \"is_present\": true, \"date\": \"2023-09-29\" }, { \"is_present\": true, \"date\": \"2023-10-02\" }, { \"is_present\": true, \"date\": \"2023-10-04\" }, { \"is_present\": true, \"date\": \"2023-10-11\" }, { \"is_present\": true, \"date\": \"2023-11-08\" } ] } ] } } }";
+    private static String jsonData = "{ \"csc200\": { \"total_students\": 1, \"data\": { \"Section B\": [ { \"id\": 26, \"name\": \"Silva, John Leonil C.\", \"attendance\": [ { \"is_present\": true, \"date\": \"2023-09-20\" }, { \"is_present\": true, \"date\": \"2023-09-21\" }, { \"is_present\": true, \"date\": \"2023-09-29\" }, { \"is_present\": true, \"date\": \"2023-10-02\" }, { \"is_present\": true, \"date\": \"2023-10-04\" }, { \"is_present\": true, \"date\": \"2023-10-11\" }, { \"is_present\": true, \"date\": \"2023-11-08\" } ] } ] } } }";
     private static String a = "https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db";
 
     public static CSC200 APIRequest(String student)
@@ -156,7 +156,7 @@ public class GetOneScene
         // Add an event handler to the button to output the user input
         showTableButton.setOnAction(event -> {
             
-            studentLabel.setText("Student: " + userInput.toString() + "\nSection: " + studSection.getValue());
+            studentLabel.setText("Student: " + studentsInSection.get(0).getName() + "\nSection: " + studSection.getValue());
             // System.out.println((studentsInSection == null)? "It is Null":"No It is not Null");
             if (studentsInSection != null) 
             {   Student firstStudent = studentsInSection.get(0);
