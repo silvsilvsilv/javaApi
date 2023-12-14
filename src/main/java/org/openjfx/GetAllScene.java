@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.*;
+import javafx.scene.text.Font;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
@@ -15,7 +16,6 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.util.Callback;
@@ -27,7 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GetAllScene 
 {
-    //private static final String API_URL = "https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db";
+    private static final String api = "https://pastebin.com/raw/TytE0smz?fbclid=IwAR25BvK84-yTiBeIpdgXX3KcfbOuWB9pmE0NRqyEzkaypU9ycVGbJYFYkes";
 
     //Handles the APIRequest and returns a class CSC200
     public static Csc200 APIRequest()
@@ -35,31 +35,33 @@ public class GetAllScene
         try
         {
             // Step 1: Make HTTP request
-            // URL url = new URL(API_URL);
-            // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // connection.setRequestMethod("GET");
+            URL url = new URL(api);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-            // // Read the response
-            // BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            // StringBuilder response = new StringBuilder();
-            // String line;
+            // Read the response
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
 
-            // while ((line = reader.readLine()) != null) 
-            // {
-            //     response.append(line);
-            // }
+            while ((line = reader.readLine()) != null) 
+            {
+                response.append(line);
+            }
 
-            // reader.close();
-            // connection.disconnect();
-            String response = "{\"csc200\":{\"section-a\":{\"total_students\":30,\"data\":[{\"id\":1,\"name\":\"Almirante, Jann Louie Q.\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]},{\"id\":2,\"name\":\"Arceño, Jayson E.\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]}]},\"section-b\":{\"total_students\":31,\"data\":[{\"id\":1,\"name\":\"Aniñon, Ryan S.\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]},{\"id\":2,\"name\":\"Banjao, Maven\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]}]},\"section-c\":{\"total_students\":21,\"data\":[{\"id\":1,\"name\":\"Abrenica, Jay Jovi James B.\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]},{\"id\":2,\"name\":\"Abria, Mary Joy A.\",\"attendance\":[{\"is_present\":true,\"date\":\"2023-09-20\"},{\"is_present\":true,\"date\":\"2023-09-21\"}]}]}}}";
+            reader.close();
+            connection.disconnect();
 
-        
+            // Convert StringBuilder to String
+            String responseString = response.toString();
+
             // Step 2: Parse JSON with Jackson
             ObjectMapper objectMapper = new ObjectMapper();
-            Course course = objectMapper.readValue(response.toString(), Course.class);
+
+            Course course = objectMapper.readValue(responseString, Course.class);
 
             Csc200 csc200 = course.getCsc200();
-            
+
             return csc200;
 
         }
@@ -78,10 +80,17 @@ public class GetAllScene
         window.initModality(Modality.APPLICATION_MODAL);
         window.setTitle("Get All Student Info");
 
+        //Font
+        Font.loadFont(GetAllScene.class.getResourceAsStream("C:\\Users\\ASUS\\Downloads\\FiraCode\\FiraCodeNerdFont-Medium.ttf"), 16);
+        // Apply the custom font globally to all components
+        Font customFont = Font.font("FiraCodeNerdFont-Medium", 16);
+        
         //For Menu Controls i.e. choosing section and the button to "GET"
         Label label = new Label();
+        label.setFont(customFont);
         label.setText("Sections: ");
         Label numOfStudents = new Label();
+        numOfStudents.setFont(customFont);
         numOfStudents.setPadding(new Insets(10,0,10,0));
         Button showTableButton = new Button("GET");
         
@@ -162,9 +171,10 @@ public class GetAllScene
                 return new SimpleObjectProperty<>(param.getValue().getAttendance());
             }
         });
+
         attendanceColumn.setMinWidth(400);
 
-        // Convert the list of dates to a comma-separated string
+        // Convert the list of dates to a \n-separated string
         attendanceColumn.setCellFactory(column -> new TextFieldTableCell<>(new StringConverter<>() {
             @Override
             public String toString(List<AttendanceA> object) {

@@ -42,46 +42,31 @@ public class GetOneScene
             //Request a specific student by their name
             //...api/student/search?search="student"
 
-            // String newURL = API_URL + student;
+            String newURL = API_URL + student;
 
-            // //Step 1: Make HTTP request
-            // URL url = new URL(a);
-            // HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // connection.setRequestMethod("GET");
+            //Step 1: Make HTTP request
+            URL url = new URL(a);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
 
-            // // Read the response
-            // BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            // StringBuilder response = new StringBuilder();
-            // String line;
+            // Read the response
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            StringBuilder response = new StringBuilder();
+            String line;
 
-            // while ((line = reader.readLine()) != null) 
-            // {
-            //     response.append(line);
-            // }
+            while ((line = reader.readLine()) != null) 
+            {
+                response.append(line);
+            }
 
-            // reader.close();
-            // connection.disconnect();
+            reader.close();
+            connection.disconnect();
         
             // Step 2: Parse JSON with Jackson
             ObjectMapper objectMapper = new ObjectMapper();
 
             CSC200 csc200 = objectMapper.readValue(jsonData, CSC200.class);
 
-            // Iterate through all sections
-            // Map<String, List<Student>> dataMap = csc200.getCsc200Data().getData();
-            // for (Map.Entry<String, List<Student>> entry : dataMap.entrySet()) {
-            //     System.out.println("Section: " + entry.getKey());
-
-            //     // Assuming there is only one student in each section
-            //     List<Student> students = entry.getValue();
-            //     for (Student stud : students) {
-            //         // Print dates for the student's attendance
-            //         List<SearchAttendance> attendanceList = stud.getAttendance();
-            //         for (SearchAttendance attendance : attendanceList) {
-            //             System.out.println("Date: " + attendance.getDate());
-            //         }
-            //     }
-            // }
 
             return csc200;
 
