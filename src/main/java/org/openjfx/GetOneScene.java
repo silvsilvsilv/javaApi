@@ -44,7 +44,6 @@ public class GetOneScene
             //...api/student/search?search="student"
 
             String newURL = API_URL + student;
-            System.out.println(newURL);
 
             //Step 1: Make HTTP request
             URL url = new URL(newURL);
@@ -131,7 +130,6 @@ public class GetOneScene
         showTableButton.setOnAction(event -> {
 
             //Data from the API Request
-            System.out.println(textField.getCharacters());
             CSC200 csc200 = APIRequest(userInput.toString().toLowerCase());
 
             //For Student section container
