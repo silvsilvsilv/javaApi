@@ -27,7 +27,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GetAllScene 
 {
-    private static final String api = "https://pastebin.com/raw/TytE0smz?fbclid=IwAR25BvK84-yTiBeIpdgXX3KcfbOuWB9pmE0NRqyEzkaypU9ycVGbJYFYkes";
+    // private static final String api = "https://pastebin.com/raw/TytE0smz?fbclid=IwAR25BvK84-yTiBeIpdgXX3KcfbOuWB9pmE0NRqyEzkaypU9ycVGbJYFYkes";
+    private static final String api = "http://127.0.0.1:8000/api/all";
 
     //Handles the APIRequest and returns a class CSC200
     public static Csc200 APIRequest()

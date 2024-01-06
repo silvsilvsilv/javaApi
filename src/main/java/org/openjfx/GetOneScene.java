@@ -29,11 +29,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class GetOneScene 
 {
     //API Link, just concatenante with "student"
-    private static String API_URL = "https://serval-select-totally.ngrok-free.app/api/student/search?search=";
+    // private static String API_URL = "https://serval-select-totally.ngrok-free.app/api/student/search?search=";
+    private static String API_URL = "http://127.0.0.1:8000/api/student/search?search=";
     
     //Json Data as String for Testing
-    private static String jsonData = "{ \"csc200\": { \"total_students\": 1, \"data\": { \"Section B\": [ { \"id\": 26, \"name\": \"Silva, John Leonil C.\", \"attendance\": [ { \"is_present\": true, \"date\": \"2023-09-20\" }, { \"is_present\": true, \"date\": \"2023-09-21\" }, { \"is_present\": true, \"date\": \"2023-09-29\" }, { \"is_present\": true, \"date\": \"2023-10-02\" }, { \"is_present\": true, \"date\": \"2023-10-04\" }, { \"is_present\": true, \"date\": \"2023-10-11\" }, { \"is_present\": true, \"date\": \"2023-11-08\" } ] } ] } } }";
-    private static String a = "https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db";
+    //private static String jsonData = "{ \"csc200\": { \"total_students\": 1, \"data\": { \"Section B\": [ { \"id\": 26, \"name\": \"Silva, John Leonil C.\", \"attendance\": [ { \"is_present\": true, \"date\": \"2023-09-20\" }, { \"is_present\": true, \"date\": \"2023-09-21\" }, { \"is_present\": true, \"date\": \"2023-09-29\" }, { \"is_present\": true, \"date\": \"2023-10-02\" }, { \"is_present\": true, \"date\": \"2023-10-04\" }, { \"is_present\": true, \"date\": \"2023-10-11\" }, { \"is_present\": true, \"date\": \"2023-11-08\" } ] } ] } } }";
+    //private static String a = "https://my-json-server.typicode.com/silvsilvsilv/simpleApi/db";
 
     public static CSC200 APIRequest(String student)
     {
@@ -43,9 +44,10 @@ public class GetOneScene
             //...api/student/search?search="student"
 
             String newURL = API_URL + student;
+            System.out.println(newURL);
 
             //Step 1: Make HTTP request
-            URL url = new URL(a);
+            URL url = new URL(newURL);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -61,11 +63,14 @@ public class GetOneScene
 
             reader.close();
             connection.disconnect();
+
+            // Convert StringBuilder to String
+            String responseString = response.toString();
         
             // Step 2: Parse JSON with Jackson
             ObjectMapper objectMapper = new ObjectMapper();
 
-            CSC200 csc200 = objectMapper.readValue(jsonData, CSC200.class);
+            CSC200 csc200 = objectMapper.readValue(responseString, CSC200.class);
 
 
             return csc200;
@@ -109,35 +114,11 @@ public class GetOneScene
         // Create a Button
         Button showTableButton = new Button("GET");
 
-        //Data from the API Request
-        CSC200 csc200 = APIRequest(userInput.toString().toLowerCase());
-
-        //For Student section container
-        GetOneScene outer = new GetOneScene();
-        MutableContainer<String> studSection = outer.new MutableContainer<>("");
-
-        // Iterate through all sections
-        Map<String, List<Student>> dataMap = csc200.getCsc200Data().getData();
-
-        for (Map.Entry<String, List<Student>> entry : dataMap.entrySet()) {
-            // System.out.println("Section: " + entry.getKey());
-            studSection.setValue(entry.getKey());
-
-            // Assuming there is only one student in each section
-            List<Student> students = entry.getValue();
-            for (Student stud : students) {
-                // Print dates for the student's attendance
-                List<SearchAttendance> attendanceList = stud.getAttendance();
-                for (SearchAttendance attendance : attendanceList) {
-                    // System.out.println("Date: " + attendance.getDate());
-                }
-            }
-        }
-
         //Adds padding between textfield and label
         VBox labelLayout = new VBox();
         labelLayout.setPadding(new Insets(0,0,10,0));
         labelLayout.getChildren().addAll(label,textField);
+        
         
         // Create a layout and add the TextField to it
         VBox root = new VBox(labelLayout,showTableButton,studentLabel);
@@ -145,16 +126,41 @@ public class GetOneScene
         root.setAlignment(Pos.TOP_LEFT);
 
         VBox newLayout = new VBox(root);
-
-        // Access the attendance property of a Student object
-        Map<String, List<Student>> data = csc200.getCsc200Data().getData();
-        String key = studSection.getValue();
-        
-        List<Student> studentsInSection = data.get(key);
-        
-
+       
         // Add an event handler to the button to output the user input
         showTableButton.setOnAction(event -> {
+
+            //Data from the API Request
+            System.out.println(textField.getCharacters());
+            CSC200 csc200 = APIRequest(userInput.toString().toLowerCase());
+
+            //For Student section container
+            GetOneScene outer = new GetOneScene();
+            MutableContainer<String> studSection = outer.new MutableContainer<>("");
+
+            // Iterate through all sections
+            Map<String, List<Student>> dataMap = csc200.getCsc200Data().getData();
+
+            for (Map.Entry<String, List<Student>> entry : dataMap.entrySet()) {
+                // System.out.println("Section: " + entry.getKey());
+                studSection.setValue(entry.getKey());
+
+                // Assuming there is only one student in each section
+                List<Student> students = entry.getValue();
+                for (Student stud : students) {
+                    // Print dates for the student's attendance
+                    List<SearchAttendance> attendanceList = stud.getAttendance();
+                    for (SearchAttendance attendance : attendanceList) {
+                        // System.out.println("Date: " + attendance.getDate());
+                    }
+                }
+            }
+
+            // Access the attendance property of a Student object
+            Map<String, List<Student>> data = csc200.getCsc200Data().getData();
+            String key = studSection.getValue();
+            
+            List<Student> studentsInSection = data.get(key);
             
             studentLabel.setText("Student: " + studentsInSection.get(0).getName() + "\nSection: " + studSection.getValue());
             // System.out.println((studentsInSection == null)? "It is Null":"No It is not Null");
